@@ -9,7 +9,7 @@ import { Course } from "../model/course";
 import { setupCourses } from "../common/setup-test-data";
 import { Test } from "tslint";
 
-xdescribe("CoursesCardListComponent", () => {
+describe("CoursesCardListComponent", () => {
   let component: CoursesCardListComponent;
   let fixture: ComponentFixture<CoursesCardListComponent>;
   let el: DebugElement;
@@ -27,35 +27,31 @@ xdescribe("CoursesCardListComponent", () => {
   }));
 
   it("should create the component", () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy("Component was not created");
   });
 
   it("should display the course list", () => {
     component.courses = setupCourses();
-
     fixture.detectChanges();
 
     const cards = el.queryAll(By.css(".course-card"));
-
-    expect(cards).toBeTruthy("Could not find cards");
+    expect(cards).toBeTruthy("Cards not created in the component");
     expect(cards.length).toBe(12, "Unexpected number of courses");
   });
 
   it("should display the first course", () => {
     component.courses = setupCourses();
-
     fixture.detectChanges();
 
-    const course = component.courses[0];
-
+    const firstCourse = component.courses[0];
     const card = el.query(By.css(".course-card:first-child")),
       title = card.query(By.css("mat-card-title")),
-      image = card.query(By.css("img"));
+      img = card.query(By.css("img"));
 
-    expect(card).toBeTruthy("Could not find course card");
-
-    expect(title.nativeElement.textContent).toBe(course.titles.description);
-
-    expect(image.nativeElement.src).toBe(course.iconUrl);
+    expect(card).toBeTruthy("Unable to find course card");
+    expect(title.nativeElement.textContent).toEqual(
+      firstCourse.titles.description
+    );
+    expect(img.nativeElement.src).toEqual(firstCourse.iconUrl);
   });
 });
